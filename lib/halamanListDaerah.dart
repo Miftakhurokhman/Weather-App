@@ -6,6 +6,9 @@ import 'package:weather_app/halamanUtama.dart';
 import 'package:weather_app/model/modelDaerah.dart';
 
 import 'api_data_source.dart';
+import 'halamanKonversiMataUang.dart';
+import 'halamanKonversiWaktu.dart';
+import 'halamanProfile.dart';
 
 class HalamanListDaerah extends StatefulWidget {
   const HalamanListDaerah({super.key});
@@ -205,8 +208,12 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        showSelectedLabels: false,
+        showSelectedLabels: true,
         showUnselectedLabels: false,
+        selectedLabelStyle: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: Colors.black54
+        ),
         fixedColor: Colors.black54,
         unselectedItemColor: Colors.black26,
         currentIndex: 0,
@@ -215,29 +222,50 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (BuildContext context) =>
                     HalamanUtama(idWilayah: "501187", longitude: "110.380000", latitude: "-7.720000", kabupaten: "Kab. Sleman")));
-          } else if (index == 1) {}
+          }
+          else if (index == 1) {
+            Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    HalamanWaktu()));
+          }
+          else if (index == 2) {
+            Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    HalamanMataUang()));
+          }
+          else if (index == 3) {
+            Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    HalamanProfile()));
+          }
         },
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_filled,
-              size: 30,),
+            icon: Icon(
+              Icons.home_rounded,
+              size: 30,
+            ),
             label: "Home",
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.access_time_filled,
+              Icons.access_time_filled_rounded,
               size: 30,
             ),
             label: "Time",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.monetization_on_rounded,
-              size: 30,),
+            icon: Icon(
+              Icons.monetization_on_rounded,
+              size: 30,
+            ),
             label: "Money",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person,
-              size: 30,),
+            icon: Icon(
+              Icons.person_2_rounded,
+              size: 30,
+            ),
             label: "Profile",
           ),
         ],

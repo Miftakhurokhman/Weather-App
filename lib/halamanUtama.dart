@@ -1,12 +1,12 @@
-//import 'dart:ffi';
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:weather_app/halamanKonversiMataUang.dart';
+import 'package:weather_app/halamanKonversiWaktu.dart';
 import 'package:weather_app/halamanListDaerah.dart';
+import 'package:weather_app/halamanProfile.dart';
 import 'package:weather_app/model/modelCuaca.dart';
-
 import 'api_data_source.dart';
 import 'model/modelDaerah.dart';
 
@@ -94,29 +94,18 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                               List.filled(x + 4 - formattedDate.length, null));
                           formattedDate[x] = formatDate(dataCuaca[x].jamCuaca!);
                         }
-                        // final String? originalDate1 = dataCuaca[0].jamCuaca;
-                        // String formattedDate1 = formatDate(originalDate1!);
-                        // final String? originalDate2 = dataCuaca[4].jamCuaca;
-                        // String formattedDate2 = formatDate(originalDate2!);
-                        // final String? originalDate3 = dataCuaca[8].jamCuaca;
-                        // String formattedDate3 = formatDate(originalDate3!);
-
                         if (tampilHari >= 12) {
                           tampilHari = 12;
                         }
 
                         if (jamSekarang < 6) {
                           indexItem = 0;
-                          //siangHari = false;
                         } else if (jamSekarang < 12) {
                           indexItem = 1;
-                          //siangHari = true;
                         } else if (jamSekarang < 18) {
                           indexItem = 2;
-                          //siangHari = true;
                         } else if (jamSekarang < 24) {
                           indexItem = 3;
-                          //siangHari = false;
                         }
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -144,7 +133,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                               width: 80,
                             ),
                             Text(
-                              "${dataCuaca[indexItem].cuaca}",
+                              "${dataCuaca[indexItem].cuaca}" ?? "NULL",
                               style: TextStyle(
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold,
@@ -162,7 +151,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  "Lat : ${widget.latitude}",
+                                  "Lat : ${widget.latitude}" ?? "Lat : NULL",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -179,7 +168,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                                   width: 20,
                                 ),
                                 Text(
-                                  "Lon : ${widget.longitude}",
+                                  "Lon : ${widget.longitude}" ?? "Lon : NULL",
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Colors.white,
@@ -560,19 +549,34 @@ class _HalamanUtamaState extends State<HalamanUtama> {
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (BuildContext context) =>
                     HalamanUtama(idWilayah: "501187", longitude: "110.380000", latitude: "-7.720000", kabupaten: "Kab. Sleman")));
-          } else if (index == 1) {}
+          }
+          else if (index == 1) {
+            Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    HalamanWaktu()));
+          }
+          else if (index == 2) {
+            Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    HalamanMataUang()));
+          }
+          else if (index == 3) {
+            Navigator.pushReplacement(context, MaterialPageRoute(
+                builder: (BuildContext context) =>
+                    HalamanProfile()));
+          }
         },
         items: const [
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.home_filled,
+              Icons.home_rounded,
               size: 30,
             ),
             label: "Home",
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.access_time_filled,
+              Icons.access_time_filled_rounded,
               size: 30,
             ),
             label: "Time",
@@ -586,7 +590,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.person,
+              Icons.person_2_rounded,
               size: 30,
             ),
             label: "Profile",

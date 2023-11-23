@@ -8,7 +8,7 @@ class HalamanLogin extends StatefulWidget {
 }
 
 class _HalamanLoginState extends State<HalamanLogin> {
-  @overridet
+  @override
   Widget build(BuildContext context) {
     return const Placeholder();
   }
