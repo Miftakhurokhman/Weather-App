@@ -226,11 +226,7 @@ class _HalamanProfileState extends State<HalamanProfile> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                              child: Container(
+                          Container(
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(20),
                                     color: Colors.red
@@ -256,8 +252,6 @@ class _HalamanProfileState extends State<HalamanProfile> {
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
                         ],
                       ),
                     ],
