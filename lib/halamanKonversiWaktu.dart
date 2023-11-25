@@ -262,7 +262,7 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                         ),
                       ),
                       SizedBox(
-                        height: 20,
+                        height: MediaQuery.of(context).size.width * 0.05,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -301,7 +301,7 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                         ],
                       ),
                       SizedBox(
-                        height: 20,
+                        height: MediaQuery.of(context).size.width * 0.05,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -311,8 +311,8 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                             child: BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                               child: Container(
-                                height: 165,
-                                width: 165,
+                                height: MediaQuery.of(context).size.width * 0.4,
+                                width: MediaQuery.of(context).size.width * 0.4,
                                 decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.5),
                                     borderRadius: BorderRadius.circular(20)),
@@ -331,25 +331,26 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                                       Expanded(
                                         child: Center(
                                           child: Row(
+                                          mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 "${_WITTime}" ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
                                               Text(
                                                 "." ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
                                               Text(
                                                 "${_minuteConvert}" ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
@@ -364,15 +365,15 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                             ),
                           ),
                           SizedBox(
-                            width: 20,
+                            width: MediaQuery.of(context).size.width * 0.05,
                           ),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                               child: Container(
-                                height: 165,
-                                width: 165,
+                                height: MediaQuery.of(context).size.width * 0.4,
+                                width: MediaQuery.of(context).size.width * 0.4,
                                 decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.5),
                                     borderRadius: BorderRadius.circular(20)),
@@ -391,25 +392,26 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                                       Expanded(
                                         child: Center(
                                           child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 "${_WITATime}" ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
                                               Text(
                                                 "." ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
                                               Text(
                                                 "${_minuteConvert}" ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
@@ -426,7 +428,7 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                         ],
                       ),
                       SizedBox(
-                        height: 20,
+                        height: MediaQuery.of(context).size.width * 0.05,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -436,8 +438,8 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                             child: BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                               child: Container(
-                                height: 165,
-                                width: 165,
+                                height: MediaQuery.of(context).size.width * 0.4,
+                                width: MediaQuery.of(context).size.width * 0.4,
                                 decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.5),
                                     borderRadius: BorderRadius.circular(20)),
@@ -456,25 +458,26 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                                       Expanded(
                                         child: Center(
                                           child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 "${_WIBTime}" ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
                                               Text(
                                                 "." ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
                                               Text(
                                                 "${_minuteConvert}" ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
@@ -489,15 +492,15 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                             ),
                           ),
                           SizedBox(
-                            width: 20,
+                            width: MediaQuery.of(context).size.width * 0.05,
                           ),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                               child: Container(
-                                height: 165,
-                                width: 165,
+                                height: MediaQuery.of(context).size.width * 0.4,
+                                width: MediaQuery.of(context).size.width * 0.4,
                                 decoration: BoxDecoration(
                                     color: Colors.white.withOpacity(0.5),
                                     borderRadius: BorderRadius.circular(20)),
@@ -516,25 +519,26 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                                       Expanded(
                                         child: Center(
                                           child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Text(
                                                 "${_GMTTime}" ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
                                               Text(
                                                 "." ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
                                               Text(
                                                 "${_minuteConvert}" ?? "NULL",
                                                 style: TextStyle(
-                                                    fontSize: 50,
+                                                    fontSize: 45,
                                                     fontWeight: FontWeight.bold,
                                                     color: Colors.black54),
                                               ),
@@ -661,207 +665,57 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
       ),
     );
   }
-  // Metode untuk melakukan konversi waktu
+
   void convertTime() {
     int selectedHour = int.parse(_selectedItemHour);
     _minuteConvert = _selectedItemMinute;
     String selectedTime = _selectedTime;
-    int timeTemp = 0;
-    int timeUnderTen = 0;
 
-
-    // Ubah zona waktu sesuai dengan pilihan dropdown
     if (selectedTime == 'WIT') {
       _WITTime = _selectedItemHour;
 
-      timeTemp = selectedHour + 23;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _WITATime = "0${timeUnderTen.toString()}";
-        } else
-          _WITATime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _WITATime = "0${timeUnderTen.toString()}";
-        } else
-          _WITATime = (timeTemp).toString();
-      }
+      int WITATime = (selectedHour + 23) % 24;
+      _WITATime = (WITATime < 10) ? '0$WITATime' : WITATime.toString();
 
-      timeTemp = selectedHour + 22;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _WIBTime = "0${timeUnderTen.toString()}";
-        } else
-          _WIBTime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _WIBTime = "0${timeUnderTen.toString()}";
-        } else
-          _WIBTime = (timeTemp).toString();
-      }
+      int WIBTime = (selectedHour + 22) % 24;
+      _WIBTime = (WIBTime < 10) ? '0$WIBTime' : WIBTime.toString();
 
-      timeTemp = selectedHour + 15;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _GMTTime = "0${timeUnderTen.toString()}";
-        } else
-          _GMTTime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _GMTTime = "0${timeUnderTen.toString()}";
-        } else
-          _GMTTime = (timeTemp).toString();
-      }
+      int GMTTime = (selectedHour + 15) % 24;
+      _GMTTime = (GMTTime < 10) ? '0$GMTTime' : GMTTime.toString();
     }
     else if (selectedTime == 'WITA') {
       _WITATime = _selectedItemHour;
 
-      timeTemp = selectedHour + 1;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _WITTime = "0${timeUnderTen.toString()}";
-        } else
-        _WITTime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _WITTime = "0${timeUnderTen.toString()}";
-        } else
-          _WITTime = (timeTemp).toString();
-      }
+      int WITTime = (selectedHour + 1) % 24;
+      _WITTime = (WITTime < 10) ? '0$WITTime' : WITTime.toString();
 
-      timeTemp = selectedHour + 23;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _WIBTime = "0${timeUnderTen.toString()}";
-        } else
-          _WIBTime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _WIBTime = "0${timeUnderTen.toString()}";
-        } else
-          _WITTime = (timeTemp).toString();
-      }
+      int WIBTime = (selectedHour + 23) % 24;
+      _WIBTime = (WIBTime < 10) ? '0$WIBTime' : WIBTime.toString();
 
-      timeTemp = selectedHour + 16;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _GMTTime = "0${timeUnderTen.toString()}";
-        } else
-          _GMTTime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _GMTTime = "0${timeUnderTen.toString()}";
-        } else
-          _GMTTime = (timeTemp).toString();
-      }
-    }
-    else if (selectedTime == 'WIB') {
+      int GMTTime = (selectedHour + 16) % 24;
+      _GMTTime = (GMTTime < 10) ? '0$GMTTime' : GMTTime.toString();
+    } else if (selectedTime == 'WIB') {
       _WIBTime = _selectedItemHour;
 
-      timeTemp = selectedHour + 1;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _WITATime = "0${timeUnderTen.toString()}";
-        } else
-          _WITATime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _WITATime = "0${timeUnderTen.toString()}";
-        } else
-          _WITATime = (timeTemp).toString();
-      }
+      int WITATime = (selectedHour + 1) % 24;
+      _WITATime = (WITATime < 10) ? '0$WITATime' : WITATime.toString();
 
-      timeTemp = selectedHour + 2;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _WITTime = "0${timeUnderTen.toString()}";
-        } else
-          _WITTime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _WITTime = "0${timeUnderTen.toString()}";
-        } else
-          _WITTime = (timeTemp).toString();
-      }
+      int WITTime = (selectedHour + 2) % 24;
+      _WITTime = (WITTime < 10) ? '0$WITTime' : WITTime.toString();
 
-      timeTemp = selectedHour + 17;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _GMTTime = "0${timeUnderTen.toString()}";
-        } else
-          _GMTTime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _GMTTime = "0${timeUnderTen.toString()}";
-        } else
-          _GMTTime = (timeTemp).toString();
-      }
-    }
-    else if (selectedTime == 'GMT') {
+      int GMTTime = (selectedHour + 17) % 24;
+      _GMTTime = (GMTTime < 10) ? '0$GMTTime' : GMTTime.toString();
+    } else if (selectedTime == 'GMT') {
       _GMTTime = _selectedItemHour;
 
-      timeTemp = selectedHour + 8;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _WITATime = "0${timeUnderTen.toString()}";
-        } else
-          _WITATime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _WITATime = "0${timeUnderTen.toString()}";
-        } else
-          _WITATime = (timeTemp).toString();
-      }
+      int WITATime = (selectedHour + 8) % 24;
+      _WITATime = (WITATime < 10) ? '0$WITATime' : WITATime.toString();
 
-      timeTemp = selectedHour + 7;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _WIBTime = "0${timeUnderTen.toString()}";
-        } else
-          _WIBTime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _WIBTime = "0${timeUnderTen.toString()}";
-        } else
-          _WIBTime = (timeTemp).toString();
-      }
+      int WIBTime = (selectedHour + 7) % 24;
+      _WIBTime = (WIBTime < 10) ? '0$WIBTime' : WIBTime.toString();
 
-      timeTemp = selectedHour + 9;
-      if (timeTemp >= 24) {
-        timeUnderTen = timeTemp - 24;
-        if (timeUnderTen < 10) {
-          _WITTime = "0${timeUnderTen.toString()}";
-        } else
-          _WITTime = (timeTemp - 24).toString();
-      } else {
-        timeUnderTen = timeTemp;
-        if (timeUnderTen < 10) {
-          _WITTime = "0${timeUnderTen.toString()}";
-        } else
-          _WITTime = (timeTemp).toString();
-      }
+      int WITTime = (selectedHour + 9) % 24;
+      _WITTime = (WITTime < 10) ? '0$WITTime' : WITTime.toString();
     }
 
     setState(() {
@@ -872,5 +726,4 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
       _minuteConvert = _selectedItemMinute;
     });
   }
-
 }

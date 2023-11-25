@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/halamanKonversiMataUang.dart';
 import 'package:weather_app/halamanKonversiWaktu.dart';
 import 'package:weather_app/halamanLogin.dart';
 import 'package:weather_app/halamanUtama.dart';
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home:
-      HalamanWaktu()
+        HalamanMataUang()
+      //HalamanWaktu()
       //HalamanLogin()
       //HalamanUtama(idWilayah: "501187", longitude: "110.380000", latitude: "-7.720000", kabupaten: "Kab. Sleman")
     );
