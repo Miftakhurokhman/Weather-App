@@ -201,7 +201,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                                       width: MediaQuery.of(context).size.width *
                                           0.4,
                                       decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.2),
+                                          color: Colors.white.withOpacity(0.5),
                                           borderRadius:
                                               BorderRadius.circular(20)),
                                       child: Padding(
@@ -262,7 +262,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                                       width: MediaQuery.of(context).size.width *
                                           0.4,
                                       decoration: BoxDecoration(
-                                          color: Colors.white.withOpacity(0.2),
+                                          color: Colors.white.withOpacity(0.5),
                                           borderRadius:
                                               BorderRadius.circular(20)),
                                       child: Padding(
@@ -319,7 +319,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                                     ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                      color: Colors.white.withOpacity(0.2),
+                                      color: Colors.white.withOpacity(0.5),
                                       borderRadius: BorderRadius.circular(20)),
                                   child: Padding(
                                     padding: const EdgeInsets.symmetric(

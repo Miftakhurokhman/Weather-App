@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +16,102 @@ class HalamanWaktu extends StatefulWidget {
 
 class _HalamanWaktuState extends State<HalamanWaktu> {
   bool siangHari = false;
+  String _selectedItemHour = '00';
+  String _selectedItemMinute = '00';
+  String _selectedTime = 'WITA';
+  String _minuteConvert = '00';
+  String _WITTime = "01";
+  String _WITATime = "00";
+  String _WIBTime = "23";
+  String _GMTTime = "16";
+  List<String> waktuJam = [
+    '00',
+    '01',
+    '02',
+    '03',
+    '04',
+    '05',
+    '06',
+    '07',
+    '08',
+    '09',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+    '23',
+  ];
+  List<String> waktuMenit = [
+    '00',
+    '01',
+    '02',
+    '03',
+    '04',
+    '05',
+    '06',
+    '07',
+    '08',
+    '09',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+    '23',
+    '24',
+    '25',
+    '26',
+    '27',
+    '28',
+    '29',
+    '30',
+    '31',
+    '32',
+    '33',
+    '34',
+    '35',
+    '36',
+    '37',
+    '38',
+    '39',
+    '40',
+    '41',
+    '42',
+    '43',
+    '44',
+    '45',
+    '46',
+    '47',
+    '48',
+    '49',
+    '50',
+    '51',
+    '52',
+    '53',
+    '54',
+    '55',
+    '56',
+    '57',
+    '58',
+    '59'
+  ];
 
   @override
   void initState() {
@@ -24,6 +122,7 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
       siangHari = true;
     }
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -37,52 +136,496 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
                         : AssetImage("assets/nightSky.jpg"),
                     fit: BoxFit.cover)),
           ),
-           Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      child: Row(
+          SingleChildScrollView(
+            child: Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: MediaQuery.of(context).size.width * 0.075),
+                child: Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 120,
+                      ),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: Container(
+                            width: 350,
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.5),
+                                borderRadius: BorderRadius.circular(20)),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                DropdownButton<String>(
+                                  icon: Visibility(
+                                      visible: false,
+                                      child: Icon(Icons.arrow_downward)),
+                                  itemHeight: 100,
+                                  menuMaxHeight: 100,
+                                  focusColor: Colors.black,
+                                  value: _selectedItemHour,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _selectedItemHour = newValue!;
+                                    });
+                                  },
+                                  items: waktuJam.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 50,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                                Text(
+                                  ".",
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 50,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                DropdownButton<String>(
+                                  icon: Visibility(
+                                      visible: false,
+                                      child: Icon(Icons.arrow_downward)),
+                                  itemHeight: 100,
+                                  menuMaxHeight: 100,
+                                  focusColor: Colors.black,
+                                  value: _selectedItemMinute,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _selectedItemMinute = newValue!;
+                                    });
+                                  },
+                                  items: waktuMenit.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 50,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                                Text(
+                                  " ",
+                                  style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 50,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                DropdownButton<String>(
+                                  icon: Visibility(
+                                      visible: false,
+                                      child: Icon(Icons.arrow_downward)),
+                                  itemHeight: 100,
+                                  menuMaxHeight: 100,
+                                  focusColor: Colors.black,
+                                  value: _selectedTime,
+                                  onChanged: (String? newValue) {
+                                    setState(() {
+                                      _selectedTime = newValue!;
+                                    });
+                                  },
+                                  items: <String>[
+                                    'WIT',
+                                    'WITA',
+                                    'WIB',
+                                    "GMT",
+                                  ].map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(
+                                        value,
+                                        style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 45,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    );
+                                  }).toList(),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-
+                          InkWell(
+                            onTap: () {
+                              convertTime();
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.teal,
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.change_circle_rounded,
+                                      size: 30,
+                                      color: Colors.white,
+                                    ),
+                                    Text(
+                                      "CONVERT",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 22,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          )
                         ],
                       ),
-                    )
-                  ],
-                ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: Container(
+                                height: 165,
+                                width: 165,
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "WIT",
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 18),
+                                      ),
+                                      Expanded(
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "${_WITTime}" ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                              Text(
+                                                "." ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                              Text(
+                                                "${_minuteConvert}" ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: Container(
+                                height: 165,
+                                width: 165,
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "WITA",
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 18),
+                                      ),
+                                      Expanded(
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "${_WITATime}" ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                              Text(
+                                                "." ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                              Text(
+                                                "${_minuteConvert}" ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: Container(
+                                height: 165,
+                                width: 165,
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "WIB",
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 18),
+                                      ),
+                                      Expanded(
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "${_WIBTime}" ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                              Text(
+                                                "." ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                              Text(
+                                                "${_minuteConvert}" ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: Container(
+                                height: 165,
+                                width: 165,
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        "GMT",
+                                        style: TextStyle(
+                                            color: Colors.black54,
+                                            fontSize: 18),
+                                      ),
+                                      Expanded(
+                                        child: Center(
+                                          child: Row(
+                                            children: [
+                                              Text(
+                                                "${_GMTTime}" ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                              Text(
+                                                "." ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                              Text(
+                                                "${_minuteConvert}" ?? "NULL",
+                                                style: TextStyle(
+                                                    fontSize: 50,
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.black54),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                )),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 30),
+                child: Positioned(
+                    child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaY: 10, sigmaX: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color: Colors.black.withOpacity(0.2),
+                          borderRadius: BorderRadius.circular(100)),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.0),
+                        child: Text(
+                          "Konversi Waktu",
+                          style: TextStyle(
+                            fontSize: 35,
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 10,
+                                color: Colors.black,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                )),
               ),
+            ],
+          ),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: true,
         showUnselectedLabels: false,
-        selectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black54
-        ),
+        selectedLabelStyle:
+            TextStyle(fontWeight: FontWeight.bold, color: Colors.black54),
         fixedColor: Colors.black54,
         unselectedItemColor: Colors.black26,
         currentIndex: 1,
         onTap: (int index) {
           if (index == 0) {
-            Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    HalamanUtama(idWilayah: "501187", longitude: "110.380000", latitude: "-7.720000", kabupaten: "Kab. Sleman")));
-          }
-          else if (index == 1) {
-            Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    HalamanWaktu()));
-          }
-          else if (index == 2) {
-            Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    HalamanMataUang()));
-          }
-          else if (index == 3) {
-            Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    HalamanProfile()));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HalamanUtama(
+                        idWilayah: "501187",
+                        longitude: "110.380000",
+                        latitude: "-7.720000",
+                        kabupaten: "Kab. Sleman")));
+          } else if (index == 1) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HalamanWaktu()));
+          } else if (index == 2) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HalamanMataUang()));
+          } else if (index == 3) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HalamanProfile()));
           }
         },
         items: const [
@@ -118,4 +661,216 @@ class _HalamanWaktuState extends State<HalamanWaktu> {
       ),
     );
   }
+  // Metode untuk melakukan konversi waktu
+  void convertTime() {
+    int selectedHour = int.parse(_selectedItemHour);
+    _minuteConvert = _selectedItemMinute;
+    String selectedTime = _selectedTime;
+    int timeTemp = 0;
+    int timeUnderTen = 0;
+
+
+    // Ubah zona waktu sesuai dengan pilihan dropdown
+    if (selectedTime == 'WIT') {
+      _WITTime = _selectedItemHour;
+
+      timeTemp = selectedHour + 23;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _WITATime = "0${timeUnderTen.toString()}";
+        } else
+          _WITATime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _WITATime = "0${timeUnderTen.toString()}";
+        } else
+          _WITATime = (timeTemp).toString();
+      }
+
+      timeTemp = selectedHour + 22;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _WIBTime = "0${timeUnderTen.toString()}";
+        } else
+          _WIBTime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _WIBTime = "0${timeUnderTen.toString()}";
+        } else
+          _WIBTime = (timeTemp).toString();
+      }
+
+      timeTemp = selectedHour + 15;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _GMTTime = "0${timeUnderTen.toString()}";
+        } else
+          _GMTTime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _GMTTime = "0${timeUnderTen.toString()}";
+        } else
+          _GMTTime = (timeTemp).toString();
+      }
+    }
+    else if (selectedTime == 'WITA') {
+      _WITATime = _selectedItemHour;
+
+      timeTemp = selectedHour + 1;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _WITTime = "0${timeUnderTen.toString()}";
+        } else
+        _WITTime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _WITTime = "0${timeUnderTen.toString()}";
+        } else
+          _WITTime = (timeTemp).toString();
+      }
+
+      timeTemp = selectedHour + 23;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _WIBTime = "0${timeUnderTen.toString()}";
+        } else
+          _WIBTime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _WIBTime = "0${timeUnderTen.toString()}";
+        } else
+          _WITTime = (timeTemp).toString();
+      }
+
+      timeTemp = selectedHour + 16;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _GMTTime = "0${timeUnderTen.toString()}";
+        } else
+          _GMTTime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _GMTTime = "0${timeUnderTen.toString()}";
+        } else
+          _GMTTime = (timeTemp).toString();
+      }
+    }
+    else if (selectedTime == 'WIB') {
+      _WIBTime = _selectedItemHour;
+
+      timeTemp = selectedHour + 1;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _WITATime = "0${timeUnderTen.toString()}";
+        } else
+          _WITATime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _WITATime = "0${timeUnderTen.toString()}";
+        } else
+          _WITATime = (timeTemp).toString();
+      }
+
+      timeTemp = selectedHour + 2;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _WITTime = "0${timeUnderTen.toString()}";
+        } else
+          _WITTime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _WITTime = "0${timeUnderTen.toString()}";
+        } else
+          _WITTime = (timeTemp).toString();
+      }
+
+      timeTemp = selectedHour + 17;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _GMTTime = "0${timeUnderTen.toString()}";
+        } else
+          _GMTTime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _GMTTime = "0${timeUnderTen.toString()}";
+        } else
+          _GMTTime = (timeTemp).toString();
+      }
+    }
+    else if (selectedTime == 'GMT') {
+      _GMTTime = _selectedItemHour;
+
+      timeTemp = selectedHour + 8;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _WITATime = "0${timeUnderTen.toString()}";
+        } else
+          _WITATime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _WITATime = "0${timeUnderTen.toString()}";
+        } else
+          _WITATime = (timeTemp).toString();
+      }
+
+      timeTemp = selectedHour + 7;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _WIBTime = "0${timeUnderTen.toString()}";
+        } else
+          _WIBTime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _WIBTime = "0${timeUnderTen.toString()}";
+        } else
+          _WIBTime = (timeTemp).toString();
+      }
+
+      timeTemp = selectedHour + 9;
+      if (timeTemp >= 24) {
+        timeUnderTen = timeTemp - 24;
+        if (timeUnderTen < 10) {
+          _WITTime = "0${timeUnderTen.toString()}";
+        } else
+          _WITTime = (timeTemp - 24).toString();
+      } else {
+        timeUnderTen = timeTemp;
+        if (timeUnderTen < 10) {
+          _WITTime = "0${timeUnderTen.toString()}";
+        } else
+          _WITTime = (timeTemp).toString();
+      }
+    }
+
+    setState(() {
+      _WITTime = _WITTime;
+      _WITATime = _WITATime;
+      _WIBTime = _WIBTime;
+      _GMTTime = _GMTTime;
+      _minuteConvert = _selectedItemMinute;
+    });
+  }
+
 }

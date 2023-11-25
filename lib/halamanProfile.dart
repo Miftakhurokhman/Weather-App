@@ -92,7 +92,7 @@ class _HalamanProfileState extends State<HalamanProfile> {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Colors.white.withOpacity(0.2)
+                                color: Colors.white.withOpacity(0.5)
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
@@ -138,7 +138,7 @@ class _HalamanProfileState extends State<HalamanProfile> {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Colors.white.withOpacity(0.2)
+                                color: Colors.white.withOpacity(0.5)
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
@@ -184,7 +184,7 @@ class _HalamanProfileState extends State<HalamanProfile> {
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: Colors.white.withOpacity(0.2)
+                                color: Colors.white.withOpacity(0.5)
                             ),
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
