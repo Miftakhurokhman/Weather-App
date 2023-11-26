@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/halamanKonversiMataUang.dart';
-import 'package:weather_app/halamanKonversiWaktu.dart';
+import 'package:weather_app/authService.dart';
 import 'package:weather_app/halamanLogin.dart';
-import 'package:weather_app/halamanUtama.dart';
 
 void main() {
-  runApp(const MyApp());
+  AuthService authService = AuthService();
+  runApp(MyApp(authService: authService));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final AuthService authService;
+
+  const MyApp({Key? key, required this.authService}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -20,11 +21,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:
-        HalamanMataUang()
-      //HalamanWaktu()
-      //HalamanLogin()
-      //HalamanUtama(idWilayah: "501187", longitude: "110.380000", latitude: "-7.720000", kabupaten: "Kab. Sleman")
+      home: HalamanLogin(authService: authService),
     );
   }
 }

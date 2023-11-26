@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +9,7 @@ import 'package:weather_app/halamanListDaerah.dart';
 import 'package:weather_app/halamanProfile.dart';
 import 'package:weather_app/model/modelCuaca.dart';
 import 'api_data_source.dart';
+import 'package:http/http.dart' as http;
 import 'model/modelDaerah.dart';
 
 class HalamanUtama extends StatefulWidget {
@@ -15,6 +17,7 @@ class HalamanUtama extends StatefulWidget {
   final String longitude;
   final String latitude;
   final String kabupaten;
+  final String id;
 
   const HalamanUtama({
     Key? key,
@@ -22,6 +25,7 @@ class HalamanUtama extends StatefulWidget {
     required this.longitude,
     required this.latitude,
     required this.kabupaten,
+    required this.id,
   }) : super(key: key);
 
   @override
@@ -30,9 +34,37 @@ class HalamanUtama extends StatefulWidget {
 
 class _HalamanUtamaState extends State<HalamanUtama> {
   bool siangHari = false;
+  List _listData = [];
+  int panjangDB = 0;
+  List<dynamic> _user = List.filled(4, '');
+
+  Future _getuser() async {
+    try {
+      final response = await http.get(Uri.parse(
+          "http://192.168.1.9:8080/flutterApi/crudFlutterWeatherApp/read.php"));
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+        setState(() {
+          _listData = data;
+          panjangDB = _listData.length;
+          for(int x = 0; x < panjangDB; x++) {
+            if(_listData[x]["id"] == widget.id) {
+              _user[0] = _listData[x]["idTempat"];
+              _user[1] = _listData[x]["tempatDefault"];
+              _user[2] = _listData[x]["longitude"];
+              _user[3] = _listData[x]["latitute"];
+            }
+          }
+        });
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
 
   @override
   void initState() {
+    _getuser();
     DateTime waktuSekarang = DateTime.now();
     int jamSekarang = waktuSekarang.hour;
     super.initState();
@@ -40,7 +72,6 @@ class _HalamanUtamaState extends State<HalamanUtama> {
       siangHari = true;
     }
   }
-
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -501,7 +532,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (builder) => HalamanListDaerah()),
+                              builder: (builder) => HalamanListDaerah(idWilayah: _user[0], longitude: _user[2], latitude: _user[3], kabupaten: _user[1], id: widget.id,)),
                         );
                       },
                       child: Container(
@@ -548,22 +579,22 @@ class _HalamanUtamaState extends State<HalamanUtama> {
           if (index == 0) {
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    HalamanUtama(idWilayah: "501187", longitude: "110.380000", latitude: "-7.720000", kabupaten: "Kab. Sleman")));
+                    HalamanUtama(idWilayah: _user[0], longitude: _user[2], latitude: _user[3], kabupaten: _user[1], id: widget.id,)));
           }
           else if (index == 1) {
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    HalamanWaktu()));
+                    HalamanWaktu(idWilayah: _user[0], longitude: _user[2], latitude: _user[3], kabupaten: _user[1], id: widget.id,)));
           }
           else if (index == 2) {
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    HalamanMataUang()));
+                    HalamanMataUang(idWilayah: _user[0], longitude: _user[2], latitude: _user[3], kabupaten: _user[1], id: widget.id,)));
           }
           else if (index == 3) {
             Navigator.pushReplacement(context, MaterialPageRoute(
                 builder: (BuildContext context) =>
-                    HalamanProfile()));
+                    HalamanProfile(idWilayah: _user[0], longitude: _user[2], latitude: _user[3], kabupaten: _user[1], id: widget.id,)));
           }
         },
         items: const [
