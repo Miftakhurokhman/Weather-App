@@ -9,7 +9,6 @@ import 'halamanUtama.dart';
 import 'package:crypt/crypt.dart';
 
 class HalamanLogin extends StatefulWidget {
-  //const HalamanLogin({Key? key}) : super(key: key);
 
   const HalamanLogin({super.key});
 
@@ -18,6 +17,8 @@ class HalamanLogin extends StatefulWidget {
 }
 
 class _HalamanLoginState extends State<HalamanLogin> {
+  bool isLoginFailed = false;
+  final formKey = GlobalKey<FormState>();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   List _listData = [];
@@ -26,7 +27,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
   Future _getuser() async {
     try {
       final response = await http.get(Uri.parse(
-          "http://192.168.2.234:8080/flutterApi/crudFlutterWeatherApp/read.php"));
+          "http://192.168.100.39:8080/flutterApi/crudFlutterWeatherApp/read.php"));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
@@ -81,177 +82,200 @@ class _HalamanLoginState extends State<HalamanLogin> {
                 child: Padding(
                   padding:
                       EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Login untuk melanjutkan",
-                        style: TextStyle(
-                          fontSize: 18,
-                          color: Colors.white,
-                          shadows: [
-                            Shadow(
-                              blurRadius: 10,
-                              color: Colors.black,
-                              offset: Offset(2, 2),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.width * 0.05,
-                      ),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(
-                            sigmaY: 10,
-                            sigmaX: 10,
-                          ),
-                          child: TextFormField(
-                            controller: _usernameController,
-                            decoration: InputDecoration(
-                              filled: true,
-                              focusColor: Colors.black,
-                              fillColor: Colors.white.withOpacity(0.5),
-                              hintText: 'Username',
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.white, width: 3),
-                                  borderRadius: BorderRadius.circular(20)),
-                              labelStyle: TextStyle(
-                                  color: Colors.black12, fontSize: 18),
-                              border: OutlineInputBorder(
-                                // Menambah// kan border
-                                borderRadius: BorderRadius.circular(20.0),
-                                // Mengatur sudut border
-                                borderSide: BorderSide(
-                                  // Mengatur sifat border
-                                  color: Colors.blue, // Warna border
-                                  width: 2.0, // Ketebalan border
-                                ),
+                  child: Form(
+                    key: formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Login untuk melanjutkan",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.white,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 10,
+                                color: Colors.black,
+                                offset: Offset(2, 2),
                               ),
-                              // Jika ingin menambahkan ikon pada input field, bisa gunakan prefixIcon
-                              // prefixIcon: Icon(Icons.email), // Ganti dengan ikon yang diinginkan
-                            ),
+                            ],
                           ),
                         ),
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.width * 0.05),
-                      ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(
-                            sigmaY: 10,
-                            sigmaX: 10,
-                          ),
-                          child: TextFormField(
-                            controller: _passwordController,
-                            obscureText: true,
-                            decoration: InputDecoration(
-                              filled: true,
-                              focusColor: Colors.black,
-                              fillColor: Colors.white.withOpacity(0.5),
-                              hintText: 'Password',
-                              focusedBorder: OutlineInputBorder(
-                                  borderSide: const BorderSide(
-                                      color: Colors.white, width: 3),
-                                  borderRadius: BorderRadius.circular(20)),
-                              labelStyle: TextStyle(
-                                  color: Colors.black12, fontSize: 18),
-                              border: OutlineInputBorder(
-                                // Menambah// kan border
-                                borderRadius: BorderRadius.circular(20.0),
-                                // Mengatur sudut border
-                                borderSide: BorderSide(
-                                  // Mengatur sifat border
-                                  color: Colors.blue, // Warna border
-                                  width: 2.0, // Ketebalan border
-                                ),
-                              ),
-                              // Jika ingin menambahkan ikon pada input field, bisa gunakan prefixIcon
-                              // prefixIcon: Icon(Icons.email), // Ganti dengan ikon yang diinginkan
-                            ),
-                          ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.05,
                         ),
-                      ),
-                      SizedBox(
-                          height: MediaQuery.of(context).size.width * 0.05),
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              login();
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  color: Colors.teal),
-                              child: Padding(
-                                padding: const EdgeInsets.all(15.0),
-                                child: Row(
-                                  children: [
-                                    Icon(
-                                      Icons.login_rounded,
-                                      size: 30,
-                                      color: Colors.white,
-                                    ),
-                                    Text(
-                                      "LOGIN",
-                                      style: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                  ],
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(
+                              sigmaY: 10,
+                              sigmaX: 10,
+                            ),
+                            child: TextFormField(
+                              controller: _usernameController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Username tidak boleh kosong";
+                                }
+                              },
+                              decoration: InputDecoration(
+                                filled: true,
+                                focusColor: Colors.black,
+                                fillColor: Colors.white.withOpacity(0.5),
+                                hintText: 'Username',
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.white, width: 3),
+                                    borderRadius: BorderRadius.circular(20)),
+                                labelStyle: TextStyle(
+                                    color: Colors.black12, fontSize: 18),
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  borderSide: BorderSide(
+                                    // Mengatur sifat border
+                                    color: Colors.blue, // Warna border
+                                    width: 2.0, // Ketebalan border
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(left: 11.5),
-                                child: Text(
-                                  "Belum punya akun?",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.white,
-                                    shadows: [
-                                      Shadow(
-                                        blurRadius: 10,
-                                        color: Colors.black,
-                                        offset: Offset(2, 2),
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.05),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(
+                              sigmaY: 10,
+                              sigmaX: 10,
+                            ),
+                            child: TextFormField(
+                              controller: _passwordController,
+                              validator: (value) {
+                                if (value!.isEmpty) {
+                                  return "Password tidak boleh kosong";
+                                }
+                              },
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                filled: true,
+                                focusColor: Colors.black,
+                                fillColor: Colors.white.withOpacity(0.5),
+                                hintText: 'Password',
+                                focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Colors.white, width: 3),
+                                    borderRadius: BorderRadius.circular(20)),
+                                labelStyle: TextStyle(
+                                    color: Colors.black12, fontSize: 18),
+                                border: OutlineInputBorder(
+                                  // Menambah// kan border
+                                  borderRadius: BorderRadius.circular(20.0),
+                                  // Mengatur sudut border
+                                  borderSide: BorderSide(
+                                    // Mengatur sifat border
+                                    color: Colors.blue, // Warna border
+                                    width: 2.0, // Ketebalan border
+                                  ),
+                                ),
+                                // Jika ingin menambahkan ikon pada input field, bisa gunakan prefixIcon
+                                // prefixIcon: Icon(Icons.email), // Ganti dengan ikon yang diinginkan
+                              ),
+                            ),
+                          ),
+                        ),
+                        if(isLoginFailed) (
+                        Padding(
+                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.05),
+                          child: Text(
+                            "Username / password salah.",
+                            style: TextStyle(
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold
+                            ),
+                          ),
+                        )
+                        ),
+                        SizedBox(
+                            height: MediaQuery.of(context).size.width * 0.05),
+                        Row(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                if(formKey.currentState!.validate()) {
+                                  login();
+                                }
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.teal),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.login_rounded,
+                                        size: 30,
+                                        color: Colors.white,
+                                      ),
+                                      Text(
+                                        "LOGIN",
+                                        style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ],
                                   ),
                                 ),
                               ),
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (BuildContext context) =>
-                                              HalamanRegister()));
-                                },
-                                child: Text(
-                                  'Register',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.teal,
-                                    fontWeight: FontWeight.bold,
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(left: 11.5),
+                                  child: Text(
+                                    "Belum punya akun?",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      shadows: [
+                                        Shadow(
+                                          blurRadius: 10,
+                                          color: Colors.black,
+                                          offset: Offset(2, 2),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      //SizedBox(height: MediaQuery.of(context).size.width * 0.1),
-                    ],
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.pushReplacement(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                HalamanRegister()));
+                                  },
+                                  child: Text(
+                                    'Register',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.teal,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        //SizedBox(height: MediaQuery.of(context).size.width * 0.1),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -274,21 +298,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
       if (_listData[x]["username"] == username) {
         bool cekPassword = isValid(_listData[x]["password"], password);
         if (cekPassword) {
-          // String id = _listData[x]["id"];
-          // String nama = _listData[x]["nama"];
-          // String namauser = _listData[x]["username"];
-          // String nim = _listData[x]["nim"];
-          // String kelas = _listData[x]["kelas"];
-          // String sandi = _listData[x]["password"];
-          // String tempat = _listData[x]["tempatDefault"];
-          // String idTempat = _listData[x]["idTempat"];
-          // String longitude = _listData[x]["longitude"];
-          // String latitude = _listData[x]["latitute"];
-          // String kesanPesan = _listData[x]["kesanPesan"];
-          // print(kesanPesan);
-          // authService.login(id, nama, namauser, nim, kelas, sandi, tempat, idTempat, longitude, latitude, kesanPesan);
-          // print(authService.nama);
-          //     .then((_) {
+          x = panjangData-1;
           Navigator.pushReplacement(
               context,
               MaterialPageRoute(
@@ -299,9 +309,17 @@ class _HalamanLoginState extends State<HalamanLogin> {
                         kabupaten: _listData[x]["tempatDefault"],
                         id: _listData[x]["id"],
                       )));
-          // });
+        } else if(x==panjangData-1 && cekPassword == false) {
+          setState(() {
+            isLoginFailed = true;
+          });
         }
+      } else if (x==panjangData-1 && _listData[x]["username"] != username) {
+        setState(() {
+          isLoginFailed = true;
+        });
       }
     }
+
   }
 }

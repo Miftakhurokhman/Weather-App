@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'halamanKonversiMataUang.dart';
 import 'halamanKonversiWaktu.dart';
+import 'halamanLogin.dart';
 import 'halamanUtama.dart';
 
 class HalamanProfile extends StatefulWidget {
@@ -36,7 +37,7 @@ class _HalamanProfileState extends State<HalamanProfile> {
   Future _getuser() async {
     try {
       final response = await http.get(Uri.parse(
-          "http://192.168.2.234:8080/flutterApi/crudFlutterWeatherApp/read.php"));
+          "http://192.168.100.39:8080/flutterApi/crudFlutterWeatherApp/read.php"));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
@@ -100,33 +101,43 @@ class _HalamanProfileState extends State<HalamanProfile> {
                         ),
                       ),
                       SizedBox(height: 20),
-                      Text(
-                        "${_user[4]}",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 25,
-                          fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              blurRadius: 10,
-                              color: Colors.black,
-                              offset: Offset(2, 2),
-                            ),
-                          ],
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Text(
+                          "${_user[4]}",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 10,
+                                color: Colors.black,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          overflow: TextOverflow.clip,
+                          textAlign: TextAlign.center,
                         ),
                       ),
-                      Text(
-                        "${_user[5]}",
-                        style: TextStyle(
-                          color: Colors.white54,
-                          fontSize: 18,
-                          shadows: [
-                            Shadow(
-                              blurRadius: 10,
-                              color: Colors.black,
-                              offset: Offset(2, 2),
-                            ),
-                          ],
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: Text(
+                          "${_user[5]}",
+                          style: TextStyle(
+                            color: Colors.white54,
+                            fontSize: 18,
+                            shadows: [
+                              Shadow(
+                                blurRadius: 10,
+                                color: Colors.black,
+                                offset: Offset(2, 2),
+                              ),
+                            ],
+                          ),
+                          overflow: TextOverflow.clip,
+                          textAlign: TextAlign.center,
                         ),
                       ),
                       SizedBox(height: MediaQuery.of(context).size.width * 0.05,),
@@ -159,12 +170,16 @@ class _HalamanProfileState extends State<HalamanProfile> {
                                           fontSize: 18,
                                         ),
                                       ),
-                                      Text(
-                                        "${_user[6]}",
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.5,
+                                        child: Text(
+                                          "${_user[6]}",
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                          overflow: TextOverflow.clip,
                                         ),
                                       ),
                                     ],
@@ -205,12 +220,16 @@ class _HalamanProfileState extends State<HalamanProfile> {
                                           fontSize: 18,
                                         ),
                                       ),
-                                      Text(
-                                        "${_user[7]}",
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                          fontSize: 22,
-                                          fontWeight: FontWeight.bold
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.5,
+                                        child: Text(
+                                          "${_user[7]}",
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.bold
+                                          ),
+                                          overflow: TextOverflow.clip,
                                         ),
                                       ),
                                     ],
@@ -251,15 +270,62 @@ class _HalamanProfileState extends State<HalamanProfile> {
                                           fontSize: 18,
                                         ),
                                       ),
-                                      Text(
-                                        "${_user[1]}",
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.bold
+                                      SizedBox(
+                                        width: MediaQuery.of(context).size.width * 0.5,
+                                        child: Text(
+                                          "${_user[1]}",
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.bold
+                                          ),
+                                          overflow: TextOverflow.clip,
                                         ),
                                       ),
                                     ],
+                                  )
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.width * 0.05,),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width * 0.85,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.white.withOpacity(0.5)
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 15.0),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Kesan dan Pesan",
+                                    style: TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  SizedBox(height: 15,),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width * 0.8,
+                                    child: Text(
+                                      _user[8],
+                                      style: TextStyle(
+                                        color: Colors.black54,
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.clip,
+                                    ),
                                   )
                                 ],
                               ),
@@ -271,32 +337,41 @@ class _HalamanProfileState extends State<HalamanProfile> {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(20),
-                                    color: Colors.red
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.all(15.0),
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.logout_rounded,
-                                        size: 30,
-                                        color: Colors.white,
-                                      ),
-                                      Text(
-                                            "LOGOUT",
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 22,
-                                                fontWeight: FontWeight.bold
+                          InkWell(
+                            onTap: () {
+                              Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          HalamanLogin()));
+                              },
+                            child: Container(
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      color: Colors.red
+                                  ),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(15.0),
+                                    child: Row(
+                                      children: [
+                                        Icon(
+                                          Icons.logout_rounded,
+                                          size: 30,
+                                          color: Colors.white,
+                                        ),
+                                        Text(
+                                              "LOGOUT",
+                                              style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 22,
+                                                  fontWeight: FontWeight.bold
+                                              ),
                                             ),
-                                          ),
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
+                          ),
                         ],
                       ),
                     ],

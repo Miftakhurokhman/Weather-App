@@ -41,7 +41,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
   Future _getuser() async {
     try {
       final response = await http.get(Uri.parse(
-          "http://192.168.2.234:8080/flutterApi/crudFlutterWeatherApp/read.php"));
+          "http://192.168.100.39:8080/flutterApi/crudFlutterWeatherApp/read.php"));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
@@ -541,18 +541,23 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                             borderRadius: BorderRadius.circular(100)),
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20.0),
-                          child: Text(
-                            widget.kabupaten,
-                            style: TextStyle(
-                              fontSize: 35,
-                              color: Colors.white,
-                              shadows: [
-                                Shadow(
-                                  blurRadius: 10,
-                                  color: Colors.black,
-                                  offset: Offset(2, 2),
-                                ),
-                              ],
+                          child: SizedBox(
+                            width: MediaQuery.of(context).size.width * 0.75,
+                            child: Text(
+                              widget.kabupaten,
+                              style: TextStyle(
+                                fontSize: 35,
+                                color: Colors.white,
+                                shadows: [
+                                  Shadow(
+                                    blurRadius: 10,
+                                    color: Colors.black,
+                                    offset: Offset(2, 2),
+                                  ),
+                                ],
+                              ),
+                              textAlign: TextAlign.center,
+                              overflow: TextOverflow.clip,
                             ),
                           ),
                         ),

@@ -4,6 +4,7 @@ import 'package:crypt/crypt.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:weather_app/halamanLogin.dart';
 import 'api_data_source.dart';
 import 'halamanUtama.dart';
 import 'model/modelDaerah.dart';
@@ -15,7 +16,9 @@ class HalamanRegister extends StatefulWidget {
   State<HalamanRegister> createState() => _HalamanRegisterState();
 }
 
+
 class _HalamanRegisterState extends State<HalamanRegister> {
+  bool isRegisterFailed = false;
   final formKey = GlobalKey<FormState>();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -32,7 +35,7 @@ class _HalamanRegisterState extends State<HalamanRegister> {
 
   Future _inputuser(String idTempat, String longitude, String latitute) async {
       final response = await http.post(Uri.parse(
-          "http://192.168.2.234:8080/flutterApi/crudFlutterWeatherApp/create.php"),
+          "http://192.168.100.39:8080/flutterApi/crudFlutterWeatherApp/create.php"),
       body: {
         "nama": _namaController.text.toString(),
         "username": _usernameController.text.toString(),
@@ -51,7 +54,7 @@ class _HalamanRegisterState extends State<HalamanRegister> {
   Future _getuser() async {
     try {
       final response = await http.get(Uri.parse(
-          "http://192.168.2.234:8080/flutterApi/crudFlutterWeatherApp/read.php"));
+          "http://192.168.100.39:8080/flutterApi/crudFlutterWeatherApp/read.php"));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
@@ -65,6 +68,7 @@ class _HalamanRegisterState extends State<HalamanRegister> {
 
   @override
   void initState() {
+    _getuser();
     _futureLoadWilayah = _loadWilayah();
     DateTime waktuSekarang = DateTime.now();
     int jamSekarang = waktuSekarang.hour;
@@ -446,8 +450,28 @@ class _HalamanRegisterState extends State<HalamanRegister> {
                                         ),
                                       ),
                                     ),
+                                    if(isRegisterFailed) (
+                                        SizedBox(
+                                          height: MediaQuery.of(context).size.width * 0.1,
+                                          child: Row(
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              Text(
+                                                "Username telah digunakan orang lain.",
+                                                style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        )
+                                    ),
+                                    if(isRegisterFailed==false) (
                                     SizedBox(
                                       height: MediaQuery.of(context).size.width * 0.1,
+                                    )
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.center,
@@ -480,6 +504,48 @@ class _HalamanRegisterState extends State<HalamanRegister> {
                                                   ),
                                                 ],
                                               ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: MediaQuery.of(context).size.width * 0.1,
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 11.5),
+                                          child: Text(
+                                            "Sudah ada akun?",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.white,
+                                              shadows: [
+                                                Shadow(
+                                                  blurRadius: 10,
+                                                  color: Colors.black,
+                                                  offset: Offset(2, 2),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                        TextButton(
+                                          onPressed: () {
+                                            Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (BuildContext context) =>
+                                                        HalamanLogin()));
+                                          },
+                                          child: Text(
+                                            'Login',
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              color: Colors.teal,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
@@ -540,19 +606,17 @@ class _HalamanRegisterState extends State<HalamanRegister> {
 
   void submit() {
     String username = _usernameController.text;
-    String longitude = "";
-    String latitute = "";
-    String idKota = "";
 
-    bool cekAkun = true;
     int banyakAkun = _listData.length;
     for(int x = 0; x < banyakAkun; x++) {
-      if(username == _listData) {
-        cekAkun = false;
+      if(username == _listData[x]["username"]) {
+        setState(() {
+          isRegisterFailed = true;
+        });
       }
     }
 
-    if (cekAkun == true) {
+    if (isRegisterFailed==false) {
       int banyakWilayah = _listWilayahFull.length;
       for(int y = 0; y < banyakWilayah; y++) {
         if (_selectedItem == _listWilayahFull[y].kota) {
@@ -560,6 +624,10 @@ class _HalamanRegisterState extends State<HalamanRegister> {
           String? longitude = _listWilayahFull[y].lon;
           String? latitute = _listWilayahFull[y].lat;
           _inputuser(idTempat!, longitude!, latitute!);
+          Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                  builder: (BuildContext context) => HalamanLogin()));
         }
       }
 
