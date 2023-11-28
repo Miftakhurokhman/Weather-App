@@ -11,9 +11,7 @@ import 'package:crypt/crypt.dart';
 class HalamanLogin extends StatefulWidget {
   //const HalamanLogin({Key? key}) : super(key: key);
 
-  final AuthService authService;
-
-  HalamanLogin({required this.authService});
+  const HalamanLogin({super.key});
 
   @override
   State<HalamanLogin> createState() => _HalamanLoginState();
@@ -28,7 +26,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
   Future _getuser() async {
     try {
       final response = await http.get(Uri.parse(
-          "http://192.168.1.9:8080/flutterApi/crudFlutterWeatherApp/read.php"));
+          "http://192.168.2.234:8080/flutterApi/crudFlutterWeatherApp/read.php"));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {

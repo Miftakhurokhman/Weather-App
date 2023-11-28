@@ -3,14 +3,11 @@ import 'package:weather_app/authService.dart';
 import 'package:weather_app/halamanLogin.dart';
 
 void main() {
-  AuthService authService = AuthService();
-  runApp(MyApp(authService: authService));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final AuthService authService;
-
-  const MyApp({Key? key, required this.authService}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +18,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: HalamanLogin(authService: authService),
+      home: HalamanLogin(),
     );
   }
 }
