@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/halamanRegister.dart';
 import 'halamanUtama.dart';
 import 'package:crypt/crypt.dart';
@@ -275,40 +276,47 @@ class _HalamanLoginState extends State<HalamanLogin> {
     );
   }
 
-  void login() {
+  void login() async {
     String username = _usernameController.text;
     String password = _passwordController.text;
+    bool isUserFound = false;
 
-    int panjangData = _listData.length;
     bool isValid(String cryptFormatHash, String enteredPassword) =>
         Crypt(cryptFormatHash).match(enteredPassword);
 
-    for (int x = 0; x < panjangData; x++) {
+    for (int x = 0; x < _listData.length; x++) {
       if (_listData[x]["username"] == username) {
+        isUserFound = true;
         bool cekPassword = isValid(_listData[x]["password"], password);
         if (cekPassword) {
-          x = panjangData-1;
+          final SharedPreferences prefs = await SharedPreferences.getInstance();
+          prefs.setStringList('items', <String>[_listData[x]["idTempat"], _listData[x]["longitude"], _listData[x]["latitute"], _listData[x]["tempatDefault"], _listData[x]["id"]]);
           Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => HalamanUtama(
-                        idWilayah: _listData[x]["idTempat"],
-                        longitude: _listData[x]["longitude"],
-                        latitude: _listData[x]["latitute"],
-                        kabupaten: _listData[x]["tempatDefault"],
-                        id: _listData[x]["id"],
-                      )));
-        } else if(x==panjangData-1 && cekPassword == false) {
-          setState(() {
-            isLoginFailed = true;
-          });
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => HalamanUtama(
+                idWilayah: _listData[x]["idTempat"],
+                longitude: _listData[x]["longitude"],
+                latitude: _listData[x]["latitute"],
+                kabupaten: _listData[x]["tempatDefault"],
+                id: _listData[x]["id"],
+              ),
+            ),
+          );
+          break; // Keluar dari loop setelah login berhasil
         }
-      } else if (x==panjangData-1 && _listData[x]["username"] != username) {
-        setState(() {
-          isLoginFailed = true;
-        });
       }
     }
 
+    if (!isUserFound) {
+      setState(() {
+        isLoginFailed = true;
+      });
+    } else {
+      setState(() {
+        isLoginFailed = true;
+      });
+    }
   }
+
 }
