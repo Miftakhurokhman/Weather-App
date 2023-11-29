@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/authService.dart';
 import 'package:weather_app/halamanLogin.dart';
 
 void main() {

@@ -142,7 +142,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SizedBox(
-                              height: 100,
+                              height: 110,
                             ),
                             Text(
                               "${dataCuaca[0].tempC} C" ?? "NULL",

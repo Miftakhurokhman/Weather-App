@@ -4,7 +4,6 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app/authService.dart';
 import 'halamanKonversiMataUang.dart';
 import 'halamanProfile.dart';
 import 'halamanUtama.dart';

@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:weather_app/authService.dart';
 import 'package:weather_app/halamanRegister.dart';
 import 'halamanUtama.dart';
 import 'package:crypt/crypt.dart';
@@ -18,7 +17,6 @@ class HalamanLogin extends StatefulWidget {
 
 class _HalamanLoginState extends State<HalamanLogin> {
   bool isLoginFailed = false;
-  final formKey = GlobalKey<FormState>();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   List _listData = [];
@@ -83,7 +81,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
                   padding:
                       EdgeInsets.all(MediaQuery.of(context).size.width * 0.1),
                   child: Form(
-                    key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -102,7 +99,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
                           ),
                         ),
                         SizedBox(
-                          height: MediaQuery.of(context).size.width * 0.05,
+                          height: MediaQuery.of(context).size.width * 0.025,
                         ),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
@@ -113,11 +110,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
                             ),
                             child: TextFormField(
                               controller: _usernameController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Username tidak boleh kosong";
-                                }
-                              },
                               decoration: InputDecoration(
                                 filled: true,
                                 focusColor: Colors.black,
@@ -142,7 +134,7 @@ class _HalamanLoginState extends State<HalamanLogin> {
                           ),
                         ),
                         SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.05),
+                            height: MediaQuery.of(context).size.width * 0.025),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20),
                           child: BackdropFilter(
@@ -152,11 +144,6 @@ class _HalamanLoginState extends State<HalamanLogin> {
                             ),
                             child: TextFormField(
                               controller: _passwordController,
-                              validator: (value) {
-                                if (value!.isEmpty) {
-                                  return "Password tidak boleh kosong";
-                                }
-                              },
                               obscureText: true,
                               decoration: InputDecoration(
                                 filled: true,
@@ -179,33 +166,35 @@ class _HalamanLoginState extends State<HalamanLogin> {
                                     width: 2.0, // Ketebalan border
                                   ),
                                 ),
-                                // Jika ingin menambahkan ikon pada input field, bisa gunakan prefixIcon
-                                // prefixIcon: Icon(Icons.email), // Ganti dengan ikon yang diinginkan
                               ),
                             ),
                           ),
                         ),
                         if(isLoginFailed) (
-                        Padding(
-                          padding: EdgeInsets.only(top: MediaQuery.of(context).size.width * 0.05),
-                          child: Text(
-                            "Username / password salah.",
-                            style: TextStyle(
-                              color: Colors.red,
-                              fontWeight: FontWeight.bold
-                            ),
+                        SizedBox(
+                          height: MediaQuery.of(context).size.width * 0.075,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Username / password salah.",
+                                style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold
+                                ),
+                              ),
+                            ],
                           ),
                         )
                         ),
-                        SizedBox(
-                            height: MediaQuery.of(context).size.width * 0.05),
+                        if(isLoginFailed==false) (
+                            SizedBox(
+                                height: MediaQuery.of(context).size.width * 0.075)
+                        ),
                         Row(
                           children: [
                             InkWell(
                               onTap: () {
-                                if(formKey.currentState!.validate()) {
-                                  login();
-                                }
+                                login();
                               },
                               child: Container(
                                 decoration: BoxDecoration(
