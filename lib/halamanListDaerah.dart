@@ -32,11 +32,38 @@ class HalamanListDaerah extends StatefulWidget {
 }
 
 class _HalamanListDaerahState extends State<HalamanListDaerah> {
+  TextEditingController _lokasiController = TextEditingController();
+  String idWilayahSearch = "";
+  String kotaSearch = "";
+  String lonSearch = "";
+  String latSearch = "";
+  String provSearch = "";
+  bool dataDitemukan = false;
+  bool finishSearch = false;
+  bool cariLokasi = false;
   bool isFirstTile = true;
   bool siangHari = false;
   List _listData = [];
   int panjangDB = 0;
+  List<ModelDaerah> _listWilayahFull = [];
   List<dynamic> _user = List.filled(4, '');
+
+  Future<void> _loadWilayah() async {
+    try {
+      List<dynamic> dynamicDataWilayah =
+          await ApiDataSource.instance.getWilayah();
+      List<ModelDaerah> dataWilayah = dynamicDataWilayah.map((dynamic item) {
+        return ModelDaerah.fromJson(item as Map<String, dynamic>);
+      }).toList();
+
+      setState(() {
+        _listWilayahFull = dataWilayah.toList();
+      });
+    } catch (error) {
+      // Handle error
+      print('Error fetching data: $error');
+    }
+  }
 
   Future _getuser() async {
     try {
@@ -47,8 +74,8 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
         setState(() {
           _listData = data;
           panjangDB = _listData.length;
-          for(int x = 0; x < panjangDB; x++) {
-            if(_listData[x]["id"] == widget.id) {
+          for (int x = 0; x < panjangDB; x++) {
+            if (_listData[x]["id"] == widget.id) {
               _user[0] = _listData[x]["idTempat"];
               _user[1] = _listData[x]["tempatDefault"];
               _user[2] = _listData[x]["longitude"];
@@ -64,6 +91,7 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
 
   @override
   void initState() {
+    _loadWilayah();
     _getuser();
     DateTime waktuSekarang = DateTime.now();
     int jamSekarang = waktuSekarang.hour;
@@ -72,6 +100,7 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
       siangHari = true;
     }
   }
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
@@ -80,140 +109,274 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
             height: MediaQuery.of(context).size.height,
             decoration: BoxDecoration(
                 image: DecorationImage(
-                    image: siangHari ? AssetImage("assets/afternoonSky.jpg") : AssetImage("assets/nightSky.jpg"),
+                    image: siangHari
+                        ? AssetImage("assets/afternoonSky.jpg")
+                        : AssetImage("assets/nightSky.jpg"),
                     fit: BoxFit.cover)),
           ),
-          Container(
-            child: FutureBuilder(
-              future: ApiDataSource.instance.getWilayah(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  List<ModelDaerah> dataWilayah = [];
-                  for (var data in snapshot.data!) {
-                    ModelDaerah wilayah = ModelDaerah.fromJson(data);
-                    dataWilayah.add(wilayah);
-                  }
-                  return ListView.builder(
-                    itemCount: dataWilayah.length,
-                    itemBuilder: (context, index) {
-                      var item = dataWilayah[index];
-                      Widget tile;
-                      if (isFirstTile) {
-                        // Menambahkan SizedBox hanya untuk ListTile pertama
-                        tile = Column(
-                          children: [
-                            SizedBox(
-                              height: 100,
-                            ),
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.075,
-                                  vertical: MediaQuery.of(context).size.width *
-                                      0.025),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.circular(20),
-                                child: BackdropFilter(
-                                  filter:
-                                      ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        color: Colors.white.withOpacity(0.5),
-                                        borderRadius:
-                                            BorderRadius.circular(20)),
-                                    child: ListTile(
-                                      onTap: () {
-                                        Navigator.pushReplacement(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (BuildContext context) =>
-                                                    HalamanUtama(
-                                                      idWilayah: item.id!,
-                                                      longitude: item.lon!,
-                                                      latitude: item.lat!,
-                                                      kabupaten: item.kota!,
-                                                      id: widget.id,)));
-                                      },
-                                      title: Text(
-                                        "${item.kota}" ?? '',
-                                        style: TextStyle(
-                                            color: Colors.black54,
-                                            fontSize: 25,
-                                            fontWeight: FontWeight.bold),
-                                      ),
-                                      subtitle: Text(
-                                        item.propinsi ?? '',
-                                        style: TextStyle(
-                                            fontSize: 15,
-                                            color: Colors.black54),
+          if (cariLokasi == false)
+            (Container(
+              child: FutureBuilder(
+                future: ApiDataSource.instance.getWilayah(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    List<ModelDaerah> dataWilayah = [];
+                    for (var data in snapshot.data!) {
+                      ModelDaerah wilayah = ModelDaerah.fromJson(data);
+                      dataWilayah.add(wilayah);
+                    }
+                    return ListView.builder(
+                      itemCount: dataWilayah.length,
+                      itemBuilder: (context, index) {
+                        var item = dataWilayah[index];
+                        Widget tile;
+                        if (isFirstTile) {
+                          tile = Column(
+                            children: [
+                              SizedBox(
+                                height: 100,
+                              ),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal:
+                                        MediaQuery.of(context).size.width *
+                                            0.075,
+                                    vertical:
+                                        MediaQuery.of(context).size.width *
+                                            0.025),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(20),
+                                  child: BackdropFilter(
+                                    filter: ImageFilter.blur(
+                                        sigmaX: 10, sigmaY: 10),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                          color: Colors.white.withOpacity(0.5),
+                                          borderRadius:
+                                              BorderRadius.circular(20)),
+                                      child: ListTile(
+                                        onTap: () {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (BuildContext
+                                                          context) =>
+                                                      HalamanUtama(
+                                                        idWilayah: item.id!,
+                                                        longitude: item.lon!,
+                                                        latitude: item.lat!,
+                                                        kabupaten: item.kota!,
+                                                        id: widget.id,
+                                                      )));
+                                        },
+                                        title: Text(
+                                          "${item.kota}" ?? '',
+                                          style: TextStyle(
+                                              color: Colors.black54,
+                                              fontSize: 25,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                        subtitle: Text(
+                                          item.propinsi ?? '',
+                                          style: TextStyle(
+                                              fontSize: 15,
+                                              color: Colors.black54),
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        );
-                        isFirstTile =
-                            false; // Setelah menambahkan SizedBox pada tile pertama, atur menjadi false
-                      } else {
-                        tile = Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal:
-                                  MediaQuery.of(context).size.width * 0.075,
-                              vertical:
-                                  MediaQuery.of(context).size.width * 0.025),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.white.withOpacity(0.5),
-                                    borderRadius: BorderRadius.circular(20)),
-                                child: ListTile(
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                HalamanUtama(
+                            ],
+                          );
+                          isFirstTile =
+                              false; // Setelah menambahkan SizedBox pada tile pertama, atur menjadi false
+                        } else {
+                          tile = Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal:
+                                    MediaQuery.of(context).size.width * 0.075,
+                                vertical:
+                                    MediaQuery.of(context).size.width * 0.025),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(20),
+                              child: BackdropFilter(
+                                filter:
+                                    ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.white.withOpacity(0.5),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: ListTile(
+                                    onTap: () {
+                                      Navigator.pushReplacement(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (BuildContext context) =>
+                                                  HalamanUtama(
                                                     idWilayah: item.id!,
                                                     longitude: item.lon!,
                                                     latitude: item.lat!,
                                                     kabupaten: item.kota!,
                                                     id: widget.id,
-                                                ))
-                                    );
-                                  },
-                                  title: Text(
-                                    "${item.kota}" ?? '',
-                                    style: TextStyle(
-                                        color: Colors.black54,
-                                        fontSize: 25,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                  subtitle: Text(
-                                    item.propinsi ?? '',
-                                    style: TextStyle(
-                                        fontSize: 15, color: Colors.black54),
+                                                  )));
+                                    },
+                                    title: Text(
+                                      "${item.kota}" ?? '',
+                                      style: TextStyle(
+                                          color: Colors.black54,
+                                          fontSize: 25,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    subtitle: Text(
+                                      item.propinsi ?? '',
+                                      style: TextStyle(
+                                          fontSize: 15, color: Colors.black54),
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        );
-                      }
-                      return tile;
-                    },
+                          );
+                        }
+                        return tile;
+                      },
+                    );
+                  }
+                  return Center(
+                    child: CircularProgressIndicator(),
                   );
-                }
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              },
-            ),
-          ),
+                },
+              ),
+            )),
+          if (cariLokasi == true)
+            (Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: MediaQuery.of(context).size.width * 0.075,
+                ),
+                child: (Center(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 85,
+                      ),
+                      Row(
+                        children: [
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.55,
+                            decoration: BoxDecoration(
+                                color: Colors.white.withOpacity(0.9),
+                                borderRadius: BorderRadius.circular(100)),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal:
+                                      MediaQuery.of(context).size.width * 0.05),
+                              child: TextFormField(
+                                controller: _lokasiController,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black54,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: 'Masukan nama kota',
+                                  hintStyle: TextStyle(
+                                    fontSize: 20,
+                                    color: Colors.black12,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  border: InputBorder.none,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () {
+                                setState(() {
+                                  dataDitemukan = false;
+                                  finishSearch = false;
+                                });
+                                search();
+                              },
+                              child: Text(
+                                "Search",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.teal,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.width * 0.05,
+                      ),
+                      if (finishSearch == true)
+                        (InkWell(
+                          onTap: (dataDitemukan)
+                              ? () {
+                                  Navigator.pushReplacement(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) =>
+                                              HalamanUtama(
+                                                idWilayah: idWilayahSearch,
+                                                longitude: lonSearch,
+                                                latitude: latSearch,
+                                                kabupaten: kotaSearch,
+                                                id: widget.id,
+                                              )));
+                                }
+                              : () {},
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: (BackdropFilter(
+                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.white.withOpacity(0.5),
+                                    borderRadius: BorderRadius.circular(20)),
+                                child: (SizedBox(
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.85,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Expanded(
+                                      child: (dataDitemukan)
+                                          ? Text(
+                                              "${kotaSearch}, ${provSearch}",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black54),
+                                              textAlign: TextAlign.center,
+                                            )
+                                          : Text(
+                                              "Kota tidak ditemukan",
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold,
+                                                  color: Colors.black54),
+                                              textAlign: TextAlign.center,
+                                            ),
+                                    ),
+                                  ),
+                                )),
+                              ),
+                            )),
+                          ),
+                        ))
+                    ],
+                  ),
+                )))),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -253,36 +416,80 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (cariLokasi == false) {
+            setState(() {
+              cariLokasi = true;
+            });
+          } else {
+            setState(() {
+              cariLokasi = false;
+            });
+          }
+        },
+        child: Icon(
+          (cariLokasi == false) ? Icons.search_rounded : Icons.list_rounded,
+          color: Colors.white,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(1000),
+        ),
+        backgroundColor: Colors.teal,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         showSelectedLabels: true,
         showUnselectedLabels: false,
-        selectedLabelStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.black54
-        ),
+        selectedLabelStyle:
+            TextStyle(fontWeight: FontWeight.bold, color: Colors.black54),
         fixedColor: Colors.black54,
         unselectedItemColor: Colors.black26,
         currentIndex: 0,
         onTap: (int index) {
           if (index == 0) {
-            Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    HalamanUtama(idWilayah: _user[0], longitude: _user[2], latitude: _user[3], kabupaten: _user[1], id: widget.id,)));
-          }
-          else if (index == 1) {
-            Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    HalamanWaktu(idWilayah: _user[0], longitude: _user[2], latitude: _user[3], kabupaten: _user[1], id: widget.id,)));
-          }
-          else if (index == 2) {
-            Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    HalamanMataUang(idWilayah: _user[0], longitude: _user[2], latitude: _user[3], kabupaten: _user[1], id: widget.id,)));
-          }
-          else if (index == 3) {
-            Navigator.pushReplacement(context, MaterialPageRoute(
-                builder: (BuildContext context) =>
-                    HalamanProfile(idWilayah: _user[0], longitude: _user[2], latitude: _user[3], kabupaten: _user[1], id: widget.id,)));
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HalamanUtama(
+                          idWilayah: _user[0],
+                          longitude: _user[2],
+                          latitude: _user[3],
+                          kabupaten: _user[1],
+                          id: widget.id,
+                        )));
+          } else if (index == 1) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HalamanWaktu(
+                          idWilayah: _user[0],
+                          longitude: _user[2],
+                          latitude: _user[3],
+                          kabupaten: _user[1],
+                          id: widget.id,
+                        )));
+          } else if (index == 2) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HalamanMataUang(
+                          idWilayah: _user[0],
+                          longitude: _user[2],
+                          latitude: _user[3],
+                          kabupaten: _user[1],
+                          id: widget.id,
+                        )));
+          } else if (index == 3) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (BuildContext context) => HalamanProfile(
+                          idWilayah: _user[0],
+                          longitude: _user[2],
+                          latitude: _user[3],
+                          kabupaten: _user[1],
+                          id: widget.id,
+                        )));
           }
         },
         items: const [
@@ -317,5 +524,30 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
         ],
       ),
     );
+  }
+
+  void search() {
+    String kota = "kota ${_lokasiController.text.toLowerCase()}";
+    String kabupaten = "kab. ${_lokasiController.text.toLowerCase()}";
+    String original = _lokasiController.text.toLowerCase();
+
+    for (int x = 0; x < _listWilayahFull.length; x++) {
+      if (original == _listWilayahFull[x].kota.toString().toLowerCase() ||
+          kota == _listWilayahFull[x].kota.toString().toLowerCase() ||
+          kabupaten == _listWilayahFull[x].kota.toString().toLowerCase()) {
+        setState(() {
+          idWilayahSearch = _listWilayahFull[x].id.toString();
+          kotaSearch = _listWilayahFull[x].kota.toString();
+          lonSearch = _listWilayahFull[x].lon.toString();
+          latSearch = _listWilayahFull[x].lat.toString();
+          provSearch = _listWilayahFull[x].propinsi.toString();
+          dataDitemukan = true;
+        });
+      }
+    }
+
+    setState(() {
+      finishSearch = true;
+    });
   }
 }
