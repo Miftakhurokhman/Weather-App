@@ -4,7 +4,7 @@ Weather App merupakan aplikasi untuk perkiraan cuaca. Pada aplikasi ini, user da
 
 ## Demo
 
-Berikut merupakan link video demo aplikasi : [Demo Weather App](https://drive.google.com/drive/folders/1HuWCusm9i92eCRXYVI8E6_paE3uJmi6B?usp=sharing)
+Berikut merupakan link video demo aplikasi : [Demo Weather App](https://drive.google.com/file/d/1ByNnEfZR6SkoqJUTiYs_T5JDcbmFFP1H/view?usp=drive_link)
 
 ## Feature
 
