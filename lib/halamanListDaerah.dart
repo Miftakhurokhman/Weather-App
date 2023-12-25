@@ -68,7 +68,7 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
   Future _getuser() async {
     try {
       final response = await http.get(Uri.parse(
-          "http://192.168.100.39:8080/flutterApi/crudFlutterWeatherApp/read.php"));
+          "https://weatherdatabaseaccount.000webhostapp.com/read.php"));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
@@ -260,61 +260,40 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
                       SizedBox(
                         height: 85,
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            width: MediaQuery.of(context).size.width * 0.55,
-                            decoration: BoxDecoration(
-                                color: Colors.white.withOpacity(0.9),
-                                borderRadius: BorderRadius.circular(100)),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal:
-                                      MediaQuery.of(context).size.width * 0.05),
-                              child: TextFormField(
-                                controller: _lokasiController,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  color: Colors.black54,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                                decoration: InputDecoration(
-                                  hintText: 'Masukan nama kota',
-                                  hintStyle: TextStyle(
-                                    fontSize: 20,
-                                    color: Colors.black12,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                  border: InputBorder.none,
-                                ),
+                      Container(
+                        width: MediaQuery.of(context).size.width * 0.85,
+                        decoration: BoxDecoration(
+                            color: Colors.white.withOpacity(0.9),
+                            borderRadius: BorderRadius.circular(100)),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal:
+                                  MediaQuery.of(context).size.width * 0.05),
+                          child: TextFormField(
+                            onChanged:(value) {
+                              setState(() {
+                                dataDitemukan = false;
+                                finishSearch = false;
+                              });
+                              search();
+                            },
+                            controller: _lokasiController,
+                            style: TextStyle(
+                              fontSize: 20,
+                              color: Colors.black54,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            decoration: InputDecoration(
+                              hintText: 'Masukan nama kota',
+                              hintStyle: TextStyle(
+                                fontSize: 20,
+                                color: Colors.black12,
+                                fontWeight: FontWeight.bold,
                               ),
+                              border: InputBorder.none,
                             ),
                           ),
-                          SizedBox(
-                            width: 10,
-                          ),
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  dataDitemukan = false;
-                                  finishSearch = false;
-                                });
-                                search();
-                              },
-                              child: Text(
-                                "Search",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.teal,
-                              ),
-                            ),
-                          )
-                        ],
+                        ),
                       ),
                       SizedBox(
                         height: MediaQuery.of(context).size.width * 0.05,

@@ -41,7 +41,7 @@ class _HalamanUtamaState extends State<HalamanUtama> {
   Future _getuser() async {
     try {
       final response = await http.get(Uri.parse(
-          "http://192.168.100.39:8080/flutterApi/crudFlutterWeatherApp/read.php"));
+          "https://weatherdatabaseaccount.000webhostapp.com/read.php"));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {

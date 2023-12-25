@@ -34,30 +34,8 @@ Aplikasi ini dibangun menggunakan:
 3. Buka command prompt pada folder tersebut.
 4. Lakukan clonning dengan cara run syntax berikut "git clone https://github.com/Miftakhurokhman/Weather-App"
 
-#### Memindah file ke dalam htdocs
-1. Apabila anda belum menginstall XAMPP, silahkan install terlebih dahulu.
-2. Setelah XAMPP terinstall, buka library, masuk ke folder file yang sudah di clone.
-3. Copy folder "flutterApi".
-4. Masuk ke dalam folder xampp, masuk ke dalam folder htdocs.
-5. Paste folder "flutterApi" pada folder htdocs.
-
-#### Mengimport database
-1. Jalankan aplikasi XAMPP.
-2. Start Apache dan MySql.
-3. Jalankan URL berikut pada browser [http://localhost/phpmyadmin](http://localhost/phpmyadmin).
-4. Buat database dengan nama "weather_app".
-5. Setelah database terbuat, masuk ke dalam database kemudian pilih menu import.
-6. Tekan "Choose File".
-7. Pilih file "weather_app.sql" yang berada di forder source code yang telah anda clone.
-8. Tekan tombol import.
-
-#### Mengganti IP yang sesuai.
-1. Buka command prompt.
-2. Jalankan syntax "ipconfig".
-3. Copy IP Address anda (contoh :  192.168.100.39).
-4. Ganti semua IP "192.168.100.39:8080" yang berada pada source code di file halamanKonversiMataUang.dart, halamanKonversiWaktu.dart, halamanListDaerah.dart, halamanLogin.dart, halamanProfile.dart, halamanRegister.dart, halamanUtama.dart dengan IP yang telah anda copy.
-
 #### Cara run aplikasi
-1. Pastikan Apache dan MySql pada XAMPP sudah di start.
-2. Run aplikasi.
+1. Buka terminal pada folder tempat menyimpan source code
+2. Jalankan systax "flutter run".
+3. Pilih chrome atau edge untuk menjalankan dengan cara tekan no 2 atau 3.
 

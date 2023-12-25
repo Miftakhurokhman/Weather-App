@@ -19,6 +19,7 @@ class HalamanRegister extends StatefulWidget {
 
 class _HalamanRegisterState extends State<HalamanRegister> {
   bool isRegisterFailed = false;
+  bool isProcessing = false;
   final formKey = GlobalKey<FormState>();
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -35,7 +36,7 @@ class _HalamanRegisterState extends State<HalamanRegister> {
 
   Future _inputuser(String idTempat, String longitude, String latitute) async {
       final response = await http.post(Uri.parse(
-          "http://192.168.100.39:8080/flutterApi/crudFlutterWeatherApp/create.php"),
+          "https://weatherdatabaseaccount.000webhostapp.com/create.php"),
       body: {
         "nama": _namaController.text.toString(),
         "username": _usernameController.text.toString(),
@@ -54,7 +55,7 @@ class _HalamanRegisterState extends State<HalamanRegister> {
   Future _getuser() async {
     try {
       final response = await http.get(Uri.parse(
-          "http://192.168.100.39:8080/flutterApi/crudFlutterWeatherApp/read.php"));
+          "https://weatherdatabaseaccount.000webhostapp.com/read.php"));
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         setState(() {
@@ -118,7 +119,19 @@ class _HalamanRegisterState extends State<HalamanRegister> {
                     fit: BoxFit.cover)),
           ),
           SingleChildScrollView(
-            child: Padding(
+            child: isProcessing ?
+            Container(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Center(
+                    child: CircularProgressIndicator(),
+                    ),
+                ],
+              ),
+            ) :  
+            Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: MediaQuery.of(context).size.width * 0.075),
                 child: Center(
@@ -560,7 +573,8 @@ class _HalamanRegisterState extends State<HalamanRegister> {
                       ),
                     ],
                   ),
-                )),
+                )
+                ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -605,32 +619,44 @@ class _HalamanRegisterState extends State<HalamanRegister> {
   }
 
   void submit() {
-    String username = _usernameController.text;
+  String username = _usernameController.text;
 
-    int banyakAkun = _listData.length;
-    for(int x = 0; x < banyakAkun; x++) {
-      if(username == _listData[x]["username"]) {
-        setState(() {
-          isRegisterFailed = true;
-        });
-      }
-    }
-
-    if (isRegisterFailed==false) {
-      int banyakWilayah = _listWilayahFull.length;
-      for(int y = 0; y < banyakWilayah; y++) {
-        if (_selectedItem == _listWilayahFull[y].kota) {
-          String? idTempat = _listWilayahFull[y].id;
-          String? longitude = _listWilayahFull[y].lon;
-          String? latitute = _listWilayahFull[y].lat;
-          _inputuser(idTempat!, longitude!, latitute!);
-          Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                  builder: (BuildContext context) => HalamanLogin()));
-        }
-      }
-
+  int banyakAkun = _listData.length;
+  for(int x = 0; x < banyakAkun; x++) {
+    if(username == _listData[x]["username"]) {
+      setState(() {
+        isRegisterFailed = true;
+      });
     }
   }
+
+  if (isRegisterFailed == false) {
+    int banyakWilayah = _listWilayahFull.length;
+    for(int y = 0; y < banyakWilayah; y++) {
+      if (_selectedItem == _listWilayahFull[y].kota) {
+        String? idTempat = _listWilayahFull[y].id;
+        String? longitude = _listWilayahFull[y].lon;
+        String? latitute = _listWilayahFull[y].lat;
+        
+        setState(() {
+          isProcessing = true;
+        });
+
+        _inputuser(idTempat!, longitude!, latitute!);
+
+        // Menunda navigasi ke halaman login selama 2 detik
+        Future.delayed(Duration(seconds: 2), () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (BuildContext context) => HalamanLogin(),
+            ),
+          );
+        });
+        break;
+      }
+    }
+  }
+}
+
 }
