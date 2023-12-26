@@ -506,27 +506,26 @@ class _HalamanListDaerahState extends State<HalamanListDaerah> {
   }
 
   void search() {
-    String kota = "kota ${_lokasiController.text.toLowerCase()}";
-    String kabupaten = "kab. ${_lokasiController.text.toLowerCase()}";
-    String original = _lokasiController.text.toLowerCase();
+  String searchText = _lokasiController.text.toLowerCase();
 
-    for (int x = 0; x < _listWilayahFull.length; x++) {
-      if (original == _listWilayahFull[x].kota.toString().toLowerCase() ||
-          kota == _listWilayahFull[x].kota.toString().toLowerCase() ||
-          kabupaten == _listWilayahFull[x].kota.toString().toLowerCase()) {
-        setState(() {
-          idWilayahSearch = _listWilayahFull[x].id.toString();
-          kotaSearch = _listWilayahFull[x].kota.toString();
-          lonSearch = _listWilayahFull[x].lon.toString();
-          latSearch = _listWilayahFull[x].lat.toString();
-          provSearch = _listWilayahFull[x].propinsi.toString();
-          dataDitemukan = true;
-        });
-      }
-    }
+  var filteredList = _listWilayahFull.where((wilayah) =>
+    wilayah.kota.toString().toLowerCase().contains(searchText) ||
+    wilayah.propinsi.toString().toLowerCase().contains(searchText)
+  ).toList();
 
+  if (filteredList.isNotEmpty) {
     setState(() {
-      finishSearch = true;
+      idWilayahSearch = filteredList[0].id.toString();
+      kotaSearch = filteredList[0].kota.toString();
+      lonSearch = filteredList[0].lon.toString();
+      latSearch = filteredList[0].lat.toString();
+      provSearch = filteredList[0].propinsi.toString();
+      dataDitemukan = true;
     });
   }
+
+  setState(() {
+    finishSearch = true;
+  });
+}
 }
