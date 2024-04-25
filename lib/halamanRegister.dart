@@ -34,7 +34,7 @@ class _HalamanRegisterState extends State<HalamanRegister> {
   List<String> _listWilayah = [];
   late Future<void> _futureLoadWilayah;
 
-  Future _inputuser(String idTempat, String longitude, String latitute) async {
+  Future<void> _inputuser(String idTempat, String longitude, String latitute) async {
       final response = await http.post(Uri.parse(
           "https://weatherdatabaseaccount.000webhostapp.com/create.php"),
       body: {
@@ -618,7 +618,7 @@ class _HalamanRegisterState extends State<HalamanRegister> {
     );
   }
 
-  void submit() {
+  Future<void> submit() async {
   String username = _usernameController.text;
 
   int banyakAkun = _listData.length;
@@ -642,17 +642,15 @@ class _HalamanRegisterState extends State<HalamanRegister> {
           isProcessing = true;
         });
 
-        _inputuser(idTempat!, longitude!, latitute!);
-
+         await _inputuser(idTempat!, longitude!, latitute!);
+        
         // Menunda navigasi ke halaman login selama 2 detik
-        Future.delayed(Duration(seconds: 2), () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (BuildContext context) => HalamanLogin(),
-            ),
-          );
-        });
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (BuildContext context) => HalamanLogin(),
+          ),
+        );
         break;
       }
     }
